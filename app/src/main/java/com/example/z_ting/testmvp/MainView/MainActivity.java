@@ -1,17 +1,14 @@
 package com.example.z_ting.testmvp.MainView;
 
 import com.example.z_ting.testmvp.R;
-import com.example.z_ting.testmvp.app.BaseFragmentActivity;
+import com.example.z_ting.testmvp.app.BaseActivity;
 
-public class MainActivity extends BaseFragmentActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected int getActivityLayoutId() {
         return R.layout.activity_main;
     }
 
-    @Override
-    protected int getFragmentLayoutId() {
-        return R.id.id_fragment_layout;
-    }
+
 }
