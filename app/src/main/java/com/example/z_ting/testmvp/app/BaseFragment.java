@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,12 @@ import android.view.ViewGroup;
  * Created by Z_TING on 2016/7/5.
  */
 public abstract class BaseFragment extends Fragment {
+    private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getFragmentLayoutId(), container, false);
+        view = inflater.inflate(getFragmentLayoutId(), container, false);
         initViews(view);
         return view;
     }
@@ -48,16 +50,42 @@ public abstract class BaseFragment extends Fragment {
         replaceFragment(clazz, null);
     }
 
-    public <T extends BaseFragment> void replaceFragment(Class<T> clazz, Bundle bundle) {
-        int layout = ((BaseActivity) getContext()).getFragmentLayoutId();
-        if (layout == 0) {
-            throw new NullPointerException("The id of container is null");
+    public <T extends BaseFragment> void replaceFragment(Class<T> clazz, String tag) {
+        replaceFragment(clazz, tag, 0);
+    }
+
+    public <T extends BaseFragment> void replaceFragment(Class<T> clazz, String tag, int res) {
+        replaceFragment(clazz, tag, res, null);
+    }
+
+    public <T extends BaseFragment> void replaceFragment(Class<T> clazz, String tag, int res, Bundle bundle) {
+        if (res == 0) {
+            res = ((BaseFragmentActivity) getContext()).getFragmentLayoutId();
+            if (res == 0) {
+                throw new NullPointerException("The id of container is null");
+            }
         }
-        T fragment=T.newInstance(getFragmentManager(),clazz);
-        if (bundle!=null){
+
+        tag = TextUtils.isEmpty(tag) ? clazz.getName() : tag;
+
+        T currentFragment = (T) ((BaseFragmentActivity) getContext()).getCurrentFragment();
+        if (currentFragment != null) {
+            if (currentFragment.getClass().getName().equals(clazz.getName())) {
+                return;
+            }
+        }
+
+        T fragment = T.newInstance(getFragmentManager(), clazz);
+        if (bundle != null) {
             fragment.setArguments(bundle);
         }
 
+        getFragmentManager().beginTransaction()
+                .replace(res, fragment)
+                .addToBackStack(tag)
+                .commit();
+
+        ((BaseFragmentActivity) getContext()).setCurrentFragment(fragment);
     }
 
 

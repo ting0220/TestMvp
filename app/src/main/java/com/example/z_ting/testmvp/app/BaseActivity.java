@@ -6,13 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * Created by Z_TING on 2016/7/5.
+ * Created by zhaoting on 16/7/6.
  */
-public abstract class BaseActivity extends AppCompatActivity {
-
+public abstract class BaseActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getActivityLayoutId());
     }
 
     //activity跳转，不带参数
@@ -35,7 +35,4 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //获取activity所在的布局
     protected abstract int getActivityLayoutId();
-
-    //获取activity中fragment所在的布局Id
-    protected abstract int getFragmentLayoutId();
 }
