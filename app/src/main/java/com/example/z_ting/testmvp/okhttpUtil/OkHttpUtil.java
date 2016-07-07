@@ -11,7 +11,6 @@ import okhttp3.OkHttpClient;
  * Created by zhaoting on 16/7/6.
  */
 public class OkHttpUtil {
-    private NoConnected mNoConnected;
     private OkHttpClient mOkHttpClient;
 
 
