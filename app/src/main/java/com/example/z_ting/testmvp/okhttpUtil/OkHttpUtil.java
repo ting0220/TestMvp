@@ -31,7 +31,9 @@ public class OkHttpUtil {
 
     public void get(String url, Callback responseCallback, NoConnected mNoConnected) {
         if (NetUtils.getInstance().isNetConnected()) {
-         
+
+
+        } else {
 
         }
     }
