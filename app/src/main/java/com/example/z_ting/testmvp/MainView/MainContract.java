@@ -7,13 +7,15 @@ import com.example.z_ting.testmvp.app.BaseView;
  * Created by zhaoting on 16/7/6.
  */
 public interface MainContract {
-    interface View extends BaseView<Presenter>{
+    interface MainView extends BaseView<MainPresenter> {
+
 
     }
 
 
-    interface Presenter extends BasePresenter{
-        void editTask();
+    interface MainPresenter extends BasePresenter {
+//        void editTask();
+
         void deleteTask();
     }
 

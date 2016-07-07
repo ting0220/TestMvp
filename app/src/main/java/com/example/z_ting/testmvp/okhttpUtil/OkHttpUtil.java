@@ -117,7 +117,7 @@ public class OkHttpUtil {
         });
     }
 
-    public static abstract class HttpCallback implements Callback {
+    public static abstract class HttpCallback {
         public abstract void onNoConnected();
 
         public abstract void onSuccess(Object object);

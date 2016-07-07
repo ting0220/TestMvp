@@ -8,11 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 /**
  * Created by zhaoting on 16/7/6.
  */
-public abstract class BaseActivity extends AppCompatActivity{
+public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getActivityLayoutId());
+        initViews();
     }
 
     //activity跳转，不带参数
@@ -35,4 +36,6 @@ public abstract class BaseActivity extends AppCompatActivity{
 
     //获取activity所在的布局
     protected abstract int getActivityLayoutId();
+
+    protected abstract void initViews();
 }
