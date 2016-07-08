@@ -5,4 +5,6 @@ package com.example.z_ting.testmvp.app;
  */
 public interface BasePresenter {
     void start();
+
+    void delete();
 }
