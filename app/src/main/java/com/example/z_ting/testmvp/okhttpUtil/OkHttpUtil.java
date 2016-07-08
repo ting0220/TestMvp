@@ -15,6 +15,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -42,22 +43,31 @@ public class OkHttpUtil {
         return SingletonHolder.instance;
     }
 
-    public void get(String url, HttpCallback callback) {
+    /**
+     * 没有参数的get请求
+     *
+     * @param url      请求网址
+     * @param callback
+     */
+    public void get(String url, HttpCallback callback, String tag) {
         final HttpCallback httpCallBack = callback;
 
         if (NetUtils.getInstance().isNetConnected()) {
-            final Request request = new Request.Builder().url(url).build();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .tag(tag)
+                    .build();
             mOkHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    final String errorMessage = e.getMessage();
+                    String errorMessage = e.getMessage();
                     onError(httpCallBack, errorMessage);
                 }
 
                 @Override
                 public void onResponse(Call call, final Response response) throws IOException {
                     if (response.isSuccessful()) {
-                        final String body = response.body().string();
+                        String body = response.body().string();
                         onSuccess(httpCallBack, body);
                     } else {
                         onError(httpCallBack, response.message());
@@ -70,7 +80,14 @@ public class OkHttpUtil {
         }
     }
 
-    public void get(String url, Map<String, String> map, HttpCallback callback) {
+    /**
+     * 有参数的get请求
+     *
+     * @param url
+     * @param map
+     * @param callback
+     */
+    public void get(String url, Map<String, String> map, HttpCallback callback, String tag) {
         StringBuilder stringBuilder = new StringBuilder(url);
         stringBuilder.append("?");
         Set<String> keys = map.keySet();
@@ -87,9 +104,64 @@ public class OkHttpUtil {
                 stringBuilder.append("&");
             }
         }
-        get(stringBuilder.toString(), callback);
+        get(stringBuilder.toString(), callback, tag);
     }
 
+
+    /**
+     * post 提交
+     *
+     * @param url
+     * @param body
+     * @param responseCallback
+     */
+    public void post(String url, RequestBody body, HttpCallback responseCallback, String tag) {
+        final HttpCallback httpCallback = responseCallback;
+        if (NetUtils.getInstance().isNetConnected()) {
+            Request request = new Request.Builder().url(url)
+                    .addHeader("Accept", "application/json")
+                    .post(body)
+                    .tag(tag)
+                    .build();
+            mOkHttpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    String errorMessage = e.getMessage();
+                    onError(httpCallback, errorMessage);
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String body = response.body().string();
+                        onSuccess(httpCallback, body);
+                    } else {
+                        onError(httpCallback, response.message());
+                    }
+                }
+            });
+        } else {
+            onNoConnected(httpCallback);
+        }
+    }
+
+    /**
+     * 取消某个请求
+     *
+     * @param tag
+     */
+    public void cancle(String tag) {
+        for (Call call : mOkHttpClient.dispatcher().queuedCalls()) {
+            if (tag.equals(call.request().tag())) {
+                call.cancel();
+            }
+        }
+        for (Call call : mOkHttpClient.dispatcher().runningCalls()) {
+            if (tag.equals(call.request().tag())) {
+                call.cancel();
+            }
+        }
+    }
 
     private void onNoConnected(HttpCallback callback) {
         callback.onNoConnected();
