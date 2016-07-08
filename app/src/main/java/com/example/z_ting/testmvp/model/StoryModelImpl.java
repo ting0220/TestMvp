@@ -27,6 +27,11 @@ public class StoryModelImpl implements StoryModel {
                 listener.onError();
             }
 
-        });
+        }, "getStory");
+    }
+
+    @Override
+    public void cancelTask() {
+        OkHttpUtil.getInstance().cancle("getStory");
     }
 }

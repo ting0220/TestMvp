@@ -10,6 +10,7 @@ import com.example.zhaoting.utils.NetUtils;
 
 public class MainActivity extends BaseActivity implements MainContract.MainView {
     private MainPresenter mPresenter;
+    private boolean flag = true;
 
     @Override
     protected int getActivityLayoutId() {
@@ -25,7 +26,9 @@ public class MainActivity extends BaseActivity implements MainContract.MainView 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.start();
+        if (flag) {
+            mPresenter.start();
+        }
     }
 
 
@@ -37,13 +40,23 @@ public class MainActivity extends BaseActivity implements MainContract.MainView 
 
     @Override
     public void onError() {
+        flag = false;
         Log.i("tag", "onError: ");
 
     }
 
     @Override
     public void onSuccess(Object object) {
+        flag = false;
         Log.i("tag", "onSuccess: ");
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (flag){
+            mPresenter.delete();
+        }
     }
 }

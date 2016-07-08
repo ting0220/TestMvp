@@ -18,10 +18,6 @@ public class MainPresenter implements MainContract.MainPresenter {
         mStoryModel = new StoryModelImpl();
     }
 
-    @Override
-    public void deleteTask() {
-
-    }
 
     @Override
     public void start() {
@@ -42,5 +38,11 @@ public class MainPresenter implements MainContract.MainPresenter {
                 mView.onError();
             }
         });
+    }
+
+    @Override
+    public void delete() {
+        mStoryModel.cancelTask();
+
     }
 }

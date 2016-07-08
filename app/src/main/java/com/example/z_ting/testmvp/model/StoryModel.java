@@ -7,4 +7,5 @@ import com.example.z_ting.testmvp.app.OnListener;
  */
 public interface StoryModel {
     void getStoryModel(String url, OnListener listener);
+    void cancelTask();
 }
