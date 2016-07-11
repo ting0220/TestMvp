@@ -8,6 +8,5 @@ public interface BaseView<T> {
 
     void onError();
 
-
     void onSuccess(Object object);
 }

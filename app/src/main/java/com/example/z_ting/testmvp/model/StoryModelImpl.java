@@ -1,7 +1,7 @@
 package com.example.z_ting.testmvp.model;
 
 import com.example.z_ting.testmvp.app.OnListener;
-import com.example.z_ting.testmvp.okhttpUtil.OkHttpUtil;
+import com.example.zhaoting.utils.OkHttpUtil;
 
 /**
  * Created by zhaoting on 16/7/7.

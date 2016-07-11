@@ -2,7 +2,7 @@ package com.example.z_ting.testmvp.view;
 
 import android.util.Log;
 
-import com.example.z_ting.testmvp.MainView.MainContract;
+import com.example.z_ting.testmvp.contract.MainContract;
 import com.example.z_ting.testmvp.R;
 import com.example.z_ting.testmvp.app.BaseActivity;
 import com.example.z_ting.testmvp.presenter.MainPresenter;

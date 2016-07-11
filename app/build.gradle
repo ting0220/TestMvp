@@ -26,5 +26,4 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.bartoszlipinski:recyclerviewheader2:2.0.1'
     compile project(':utils')
-    compile 'com.squareup.okhttp3:okhttp:3.4.0-RC1'
 }

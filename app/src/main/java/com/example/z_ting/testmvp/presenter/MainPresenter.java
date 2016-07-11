@@ -1,6 +1,6 @@
 package com.example.z_ting.testmvp.presenter;
 
-import com.example.z_ting.testmvp.MainView.MainContract;
+import com.example.z_ting.testmvp.contract.MainContract;
 import com.example.z_ting.testmvp.app.OnListener;
 import com.example.z_ting.testmvp.model.StoryModel;
 import com.example.z_ting.testmvp.model.StoryModelImpl;
@@ -43,6 +43,5 @@ public class MainPresenter implements MainContract.MainPresenter {
     @Override
     public void delete() {
         mStoryModel.cancelTask();
-
     }
 }
